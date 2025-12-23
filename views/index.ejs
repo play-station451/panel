@@ -46,19 +46,37 @@
             border-color: rgba(59, 130, 246, 0.5);
             box-shadow: 0 0 20px rgba(30, 58, 138, 0.3);
         }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.2);
+            border-radius: 10px;
+        }
     </style>
 </head>
-<body class="block">
+<body class="min-h-screen">
     <div class="stars-container" id="stars"></div>
 
-    <main class="max-w-7xl mx-auto p-10">
-        <header class="mb-12">
-            <div>
-                <h1 class="text-4xl font-bold tracking-tighter text-white uppercase">Home</h1>
-            </div>
-            </header>
+    <%- include('partials/sidebar') %>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <main class="transition-all duration-300 ml-0 md:ml-64 p-6 lg:p-10">
+        
+        <header class="mb-12 flex justify-between items-center">
+            <div>
+                <h1 class="text-4xl font-bold tracking-tighter text-white uppercase">System Overview</h1>
+                <p class="text-blue-500 text-xs mt-1 tracking-[0.2em]">OPERATIONAL STATUS: NOMINAL</p>
+            </div>
+            
+            <button id="mobile-toggle" class="md:hidden p-2 glass-card text-blue-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </header>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="p-6 glass-card">
                 <p class="text-[10px] text-blue-600 uppercase tracking-widest mb-1">RAM</p>
                 <div class="flex items-baseline gap-2">
@@ -75,21 +93,17 @@
                 </div>
             </div>
 
-            <div class="p-6 glass-card">
+            <div class="p-6 glass-card sm:col-span-2 lg:col-span-1">
                 <p class="text-[10px] text-blue-600 uppercase tracking-widest mb-1">Disk</p>
                 <div class="flex items-baseline gap-2">
                     <span class="text-3xl font-bold text-white"><%= (user.disk / 1024).toFixed(2) %></span>
                     <span class="text-blue-800 text-sm uppercase">GiB</span>
                 </div>
             </div>
+        </div>
 
-            <div class="p-6 glass-card">
-                <p class="text-[10px] text-blue-600 uppercase tracking-widest mb-1">Server slots</p>
-                <div class="flex items-baseline gap-2">
-                    <span class="text-3xl font-bold text-white">30</span>
-                    <span class="text-blue-800 text-sm uppercase">Active</span>
-                </div>
-            </div>
+        <div class="mt-10 p-10 border border-dashed border-blue-900/30 rounded-lg flex flex-col items-center justify-center text-slate-500">
+            <p class="uppercase tracking-widest text-xs italic">No active servers detected</p>
         </div>
     </main>
 
@@ -105,6 +119,15 @@
             star.style.top = Math.random() * 100 + '%';
             star.style.setProperty('--duration', Math.random() * 50 + 50 + 's');
             container.appendChild(star);
+        }
+
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        if (mobileToggle && sidebar) {
+            mobileToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+            });
         }
     </script>
 </body>

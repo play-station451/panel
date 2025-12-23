@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - <%= APP_NAME %></title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: #020617;
+            margin: 0;
+            overflow-x: hidden;
+            color: #e2e8f0;
+        }
+
+        .stars-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: move-twinkle var(--duration) infinite linear;
+        }
+
+        @keyframes move-twinkle {
+            from { transform: translateY(0); opacity: 0.5; }
+            to { transform: translateY(-100vh); opacity: 0.8; }
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 20px rgba(30, 58, 138, 0.3);
+        }
+    </style>
+</head>
+<body class="block">
+    <div class="stars-container" id="stars"></div>
+
+    <main class="max-w-7xl mx-auto p-10">
+        <header class="mb-12">
+            <div>
+                <h1 class="text-4xl font-bold tracking-tighter text-white uppercase">Home</h1>
+            </div>
+            </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="p-6 glass-card">
+                <p class="text-[10px] text-blue-600 uppercase tracking-widest mb-1">RAM</p>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-3xl font-bold text-white"><%= (user.ram / 1024).toFixed(2) %></span>
+                    <span class="text-blue-800 text-sm uppercase">GiB</span>
+                </div>
+            </div>
+
+            <div class="p-6 glass-card">
+                <p class="text-[10px] text-blue-600 uppercase tracking-widest mb-1">CPU cores</p>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-3xl font-bold text-white"><%= (user.cpu / 100).toFixed(2) %></span>
+                    <span class="text-blue-800 text-sm uppercase">core(s)</span>
+                </div>
+            </div>
+
+            <div class="p-6 glass-card">
+                <p class="text-[10px] text-blue-600 uppercase tracking-widest mb-1">Disk</p>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-3xl font-bold text-white"><%= (user.disk / 1024).toFixed(2) %></span>
+                    <span class="text-blue-800 text-sm uppercase">GiB</span>
+                </div>
+            </div>
+
+            <div class="p-6 glass-card">
+                <p class="text-[10px] text-blue-600 uppercase tracking-widest mb-1">Server slots</p>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-3xl font-bold text-white">30</span>
+                    <span class="text-blue-800 text-sm uppercase">Active</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const container = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 2 + 'px';
+            star.style.width = size;
+            star.style.height = size;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.setProperty('--duration', Math.random() * 50 + 50 + 's');
+            container.appendChild(star);
+        }
+    </script>
+</body>
+</html>

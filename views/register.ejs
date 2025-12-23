@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - <%= APP_NAME %></title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: #020617;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: move-twinkle var(--duration) infinite linear;
+        }
+
+        @keyframes move-twinkle {
+            from { transform: translateY(0); opacity: 0.5; }
+            to { transform: translateY(-100vh); opacity: 0.8; }
+        }
+
+        .terminal-window {
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(30, 58, 138, 0.2);
+            position: relative;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars-container" id="stars"></div>
+
+    <div class="w-full max-w-sm p-10 bg-black/80 backdrop-blur-md terminal-window">
+        
+        <div class="mb-10 text-center">
+            <h2 class="text-3xl text-blue-400 tracking-[0.4em] uppercase font-bold">
+                REGISTER
+            </h2>
+            <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-blue-500 to-transparent mt-4 opacity-50"></div>
+        </div>
+
+        <% if (locals.error) { %>
+            <div class="mb-6 py-2 px-3 border-l-2 border-red-600 bg-red-950/20 text-[11px] text-red-500 uppercase tracking-wider">
+                > System Error: <%= error %>
+            </div>
+        <% } %>
+
+        <form action="/register" method="POST" class="space-y-4">
+            <div>
+                <label class="block mb-1 text-[11px] text-blue-600 uppercase tracking-widest">Username</label>
+                <input type="text" name="username" placeholder="CHOOSE USERNAME" required
+                    class="w-full p-3 text-blue-100 bg-blue-950/10 border border-blue-900 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-blue-900/50 rounded-none">
+            </div>
+
+            <div>
+                <label class="block mb-1 text-[11px] text-blue-600 uppercase tracking-widest">Email Address</label>
+                <input type="email" name="email" placeholder="example@gmail.com" required
+                    class="w-full p-3 text-blue-100 bg-blue-950/10 border border-blue-900 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-blue-900/50 rounded-none">
+            </div>
+
+            <div>
+                <label class="block mb-1 text-[11px] text-blue-600 uppercase tracking-widest">Password</label>
+                <input type="password" name="password" placeholder="********" required
+                    class="w-full p-3 text-blue-100 bg-blue-950/10 border border-blue-900 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-blue-900/50 rounded-none">
+            </div>
+
+            <button type="submit" 
+                class="w-full p-4 mt-4 font-bold text-sm text-black bg-blue-500 hover:bg-white hover:text-blue-900 transition-all uppercase tracking-widest active:scale-[0.98]">
+                Register
+            </button>
+        </form>
+
+        <div class="mt-10 flex justify-between items-center text-[10px] text-blue-900 uppercase tracking-tighter">
+            <span>Version: 0.0.1</span>
+            <a href="/login" class="text-blue-600 hover:text-blue-400 underline decoration-blue-900/50">Login</a>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 2 + 'px';
+            star.style.width = size;
+            star.style.height = size;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.setProperty('--duration', Math.random() * 50 + 50 + 's');
+            container.appendChild(star);
+        }
+    </script>
+</body>
+</html>
